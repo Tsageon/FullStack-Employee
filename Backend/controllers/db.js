@@ -24,9 +24,9 @@ const getEmployees = async (req, res) => {
 };
 
 const addEmployee = async (req, res) => {
-  const { Name, Gender, Position, Id, phoneNumber, email, Picture } = req.body;
+  const { Name, Gender, Position, IdNumber, phoneNumber, email, Picture } = req.body;
 
-  if (!Name || !Gender || !Position || !Id || !phoneNumber || !email || !Picture) {
+  if (!Name || !Gender || !Position || !IdNumber || !phoneNumber || !email || !Picture) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -36,7 +36,7 @@ const addEmployee = async (req, res) => {
       Gender: Gender,
       email: email,
       Position: Position,
-      Id: Id,
+      IdNumber: IdNumber,
       phoneNumber: phoneNumber,
       Picture: Picture,
     });
@@ -53,7 +53,10 @@ const addEmployee = async (req, res) => {
 
 const updateEmployee = async (req, res) => {
   const { id } = req.params;
-  const { Name, email, Gender, phoneNumber, Id, Position } = req.body;
+  
+  console.log("ID from params:", id);
+  console.log("Data received for update:", req.body);
+  const { Name, email, Gender, phoneNumber, IdNumber, Position } = req.body;
 
   try {
     const employeeDocRef = doc(db, "employees", id);
@@ -63,11 +66,9 @@ const updateEmployee = async (req, res) => {
       email,
       Gender,
       phoneNumber,
-      Id,
+      IdNumber,
       Position,
     };
-
-   
 
     await updateDoc(employeeDocRef, updateData);
 
